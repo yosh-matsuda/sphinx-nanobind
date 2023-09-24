@@ -335,6 +335,15 @@ def is_singledispatch_method(obj: Any) -> TypeIs[singledispatchmethod]:
     return isinstance(obj, singledispatchmethod)
 
 
+def isnbfunc(obj: Any) -> bool:
+    """Check if the object is nanobind.nb_func."""
+    return (
+        hasattr(type(obj), "__module__")
+        and type(obj).__module__ == "nanobind"
+        and type(obj).__name__ == "nb_func"
+    )
+
+
 def isfunction(obj: Any) -> TypeIs[types.FunctionType]:
     """Check if the object is a user-defined function.
 
@@ -342,7 +351,7 @@ def isfunction(obj: Any) -> TypeIs[types.FunctionType]:
 
     .. seealso:: :external+python:func:`inspect.isfunction`
     """
-    return inspect.isfunction(unpartial(obj))
+    return inspect.isfunction(unpartial(obj)) or isnbfunc(obj)
 
 
 def isbuiltin(obj: Any) -> TypeIs[types.BuiltinFunctionType]:
