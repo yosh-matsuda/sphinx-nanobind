@@ -2564,6 +2564,8 @@ class AttributeDocumenter(GenericAliasMixin, SlotsMixin,  # type: ignore[misc]
     ) -> bool:
         if isinstance(parent, ModuleDocumenter):
             return False
+        if inspect.isroutine(member):
+            return False
         if inspect.isattributedescriptor(member):
             return True
         return not inspect.isroutine(member) and not isinstance(member, type)
